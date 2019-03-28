@@ -1,14 +1,8 @@
-const express = require("express");
 const fs = require('fs');
 const path = require('path');
 const session = require("express-session");
-const cookieParser = require('cookie-parser');
 
-module.exports = createApp = (routeNames, workflowPath, staticContentPath, port) => {
-    const app = express();
-    app.use(express.static(staticContentPath));
-// middleware
-    app.use(cookieParser());
+module.exports = addWorkflow = (app, routeNames, workflowPath) => {
     app.use(session({
         secret: 'LONG_RANDOM_STRING_HERE',
         resave: true,
@@ -94,30 +88,8 @@ module.exports = createApp = (routeNames, workflowPath, staticContentPath, port)
             }
         )
     };
-
-
     const WF = loadJson(workflowPath);
-    for (let i=0; i<routeNames.length; i++) {
+    for (let i = 0; i < routeNames.length; i++) {
         addPost(routeNames[i]);
     }
-
-    app.get('/getClient', (req, res) => {
-        res.send(
-            { "fname": "Andrey", "lname": "Vlasov", "messages": "5", "purchases": "3", "userphotourl": "/photo_123.png" }
-        );
-    });
-
-    app.get("/getCurrentState", (req, res) =>
-        res.send({
-            sucsessful: true, body: {
-                result: 'SUCCESS',
-                state: '',
-                flow: 'radioFlow'
-            }
-        })
-    );
-
-    app.listen(port, () => console.log("Listening on port 8090!"));
-
-    return app
 };

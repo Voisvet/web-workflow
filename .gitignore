@@ -1,0 +1,16 @@
+syntax: glob
+
+/npm-debug.log*
+/node_modules/*
+
+# Code style, coverage, etc. reports
+**/reports/*
+coverage
+
+# Vendor dll build
+dlls
+
+# User-specific stuff for intellij idea:
+# see https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+.idea
+.history
